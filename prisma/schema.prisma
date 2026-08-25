@@ -1,0 +1,75 @@
+// Prisma Schema for ReturnDesk
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReturnReason {
+  DAMAGED
+  WRONG_ITEM
+  SIZE_ISSUE
+  NOT_AS_DESCRIBED
+  CHANGED_MIND
+}
+
+enum ReturnStatus {
+  OPEN
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum ReturnResolution {
+  REFUND
+  REPLACEMENT
+  STORE_CREDIT
+}
+
+model ReturnRequest {
+  id            String            @id @default(cuid())
+  reference     String            @unique
+  customerName  String
+  customerEmail String
+  customerPhone String
+  orderId       String
+  itemId        String
+  quantity      Int
+  reason        ReturnReason
+  status        ReturnStatus      @default(OPEN)
+  resolution    ReturnResolution?
+  refundAmount  Decimal?          @db.Decimal(10, 2)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  removedAt     DateTime?
+
+  notes Note[]
+
+  @@index([status, removedAt])
+  @@index([orderId, itemId])
+  @@index([createdAt])
+  @@index([customerEmail])
+  @@index([customerName])
+  @@index([reference])
+  @@index([reason])
+}
+
+model Note {
+  id        String        @id @default(cuid())
+  requestId String
+  request   ReturnRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  content   String        @db.Text
+  createdAt DateTime      @default(now())
+
+  @@index([requestId, createdAt])
+}
+
+model ReferenceSequence {
+  year      Int @id
+  lastValue Int @default(0)
+}
