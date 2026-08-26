@@ -76,8 +76,11 @@ export default function DashboardPage() {
 
       setData(json.data || []);
       setPagination(json.pagination || { page: 1, limit: 10, total: 0, totalPages: 1 });
-    } catch (err: any) {
-      error("Error Loading Desk", err.message || "Failed to load returns list");
+    } catch (err) {
+      error(
+        "Error Loading Desk",
+        err instanceof Error ? err.message : "Failed to load returns list"
+      );
     } finally {
       setLoading(false);
     }
