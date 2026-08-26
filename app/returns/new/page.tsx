@@ -11,7 +11,6 @@ import {
   AlertCircle,
   Package,
   User,
-  HelpCircle,
 } from "lucide-react";
 
 export default function NewReturnPage() {
@@ -66,9 +65,10 @@ export default function NewReturnPage() {
         `Reference ${json.data.reference} generated successfully.`
       );
       router.push(`/returns/${json.data.id}`);
-    } catch (err: any) {
-      setFormError(err.message || "An error occurred");
-      error("Submission Failed", err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An error occurred";
+      setFormError(message);
+      error("Submission Failed", message);
     } finally {
       setSubmitting(false);
     }

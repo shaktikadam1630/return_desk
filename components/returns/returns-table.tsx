@@ -8,7 +8,7 @@ import { ReasonBadge } from "./reason-badge";
 import { ResolutionBadge } from "./resolution-badge";
 import { ApprovalModal } from "./approval-modal";
 import { ConfirmDialog } from "./confirm-dialog";
-import { formatDate, formatCurrency } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
 import {
   ChevronLeft,
@@ -22,8 +22,6 @@ import {
   CheckCheck,
   Trash2,
   Inbox,
-  User,
-  Package,
 } from "lucide-react";
 
 export interface ReturnRequestItem {
@@ -70,7 +68,7 @@ export function ReturnsTable({
   onDataRefresh,
   onClearFilters,
 }: ReturnsTableProps) {
-  const { success, error } = useToast();
+  const { success } = useToast();
 
   // Modal states
   const [approvalTarget, setApprovalTarget] = useState<ReturnRequestItem | null>(null);

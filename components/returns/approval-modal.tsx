@@ -64,9 +64,10 @@ export function ApprovalModal({
       success("Request Approved", `Return request ${reference} has been approved.`);
       onSuccess();
       onClose();
-    } catch (err: any) {
-      setFormError(err.message || "An error occurred");
-      error("Approval Failed", err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An error occurred";
+      setFormError(message);
+      error("Approval Failed", message);
     } finally {
       setLoading(false);
     }

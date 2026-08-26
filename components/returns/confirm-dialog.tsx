@@ -36,8 +36,8 @@ export function ConfirmDialog({
       setErrorMessage(null);
       await onConfirm();
       onClose();
-    } catch (err: any) {
-      setErrorMessage(err.message || "An unexpected error occurred.");
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }

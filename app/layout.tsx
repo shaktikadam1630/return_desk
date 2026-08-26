@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { ToastProvider } from "@/components/ui/toast";
-import { RotateCcw, PlusCircle, ArrowLeftRight, Layers } from "lucide-react";
+import { RotateCcw, PlusCircle, Layers } from "lucide-react";
 import "./globals.css";
 
 const inter = Inter({

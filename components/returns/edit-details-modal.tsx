@@ -71,9 +71,10 @@ export function EditDetailsModal({
       success("Details Updated", `Return request ${request.reference} details updated.`);
       onSuccess();
       onClose();
-    } catch (err: any) {
-      setFormError(err.message || "An error occurred");
-      error("Update Failed", err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An error occurred";
+      setFormError(message);
+      error("Update Failed", message);
     } finally {
       setLoading(false);
     }

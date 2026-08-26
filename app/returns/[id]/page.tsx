@@ -11,13 +11,12 @@ import { NotesSection } from "@/components/returns/notes-section";
 import { ApprovalModal } from "@/components/returns/approval-modal";
 import { EditDetailsModal } from "@/components/returns/edit-details-modal";
 import { ConfirmDialog } from "@/components/returns/confirm-dialog";
-import { formatDate, formatCurrency, formatResolutionLabel } from "@/lib/utils";
+import { formatDate, formatCurrency } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
 import {
   ArrowLeft,
   User,
   Package,
-  Clock,
   CheckCircle2,
   XCircle,
   CheckCheck,
@@ -27,7 +26,6 @@ import {
   Lock,
   DollarSign,
   AlertCircle,
-  Inbox,
 } from "lucide-react";
 
 interface NoteItem {
@@ -62,7 +60,7 @@ export default function ReturnDetailsPage({
 }) {
   const router = useRouter();
   const { id } = use(params);
-  const { success, error } = useToast();
+  const { success } = useToast();
 
   const [request, setRequest] = useState<ReturnRequestDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -99,8 +97,10 @@ export default function ReturnDetailsPage({
       }
 
       setRequest(json.data);
-    } catch (err: any) {
-      setFetchError(err.message || "Failed to load request details");
+    } catch (err) {
+      setFetchError(
+        err instanceof Error ? err.message : "Failed to load request details",
+      );
     } finally {
       setLoading(false);
     }

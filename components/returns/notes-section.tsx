@@ -43,8 +43,8 @@ export function NotesSection({ requestId, notes, onNoteAdded }: NotesSectionProp
       setContent("");
       success("Note Added", "Internal note was successfully recorded.");
       onNoteAdded();
-    } catch (err: any) {
-      error("Error", err.message || "Failed to post note");
+    } catch (err) {
+      error("Error", (err instanceof Error ? err.message : String(err)) || "Failed to post note");
     } finally {
       setSubmitting(false);
     }
