@@ -1,46 +1,83 @@
 # ReturnDesk
 
-ReturnDesk is a full-stack returns management system for support teams. It provides a searchable request queue, lifecycle validation, audit notes, and controlled refund, replacement, and store-credit resolutions.
+ReturnDesk is a returns management portal for support teams handling customer return requests. It provides a searchable operations queue, controlled resolutions, lifecycle validation, and an immutable audit trail.
 
-## Stack
+**Built by Shakti Kadam**
 
-- Next.js 15 and React 19
-- TypeScript and Tailwind CSS
-- PostgreSQL and Prisma ORM
-- Zod validation and REST route handlers
+## Highlights
 
-## Local Setup
+- Human-readable references such as `RET-2026-00001`
+- Server-side search, filtering, sorting, and pagination
+- Five-state workflow: `OPEN` -> `IN_REVIEW` -> `APPROVED` / `REJECTED` -> `COMPLETED`
+- Refund, replacement, and store-credit resolution validation
+- Duplicate request prevention for live order items
+- Field locking after approval or rejection
+- Soft deletion and chronological internal notes
+- Responsive dashboard with loading states, dialogs, and status badges
 
-Requirements: Node.js 20+ and PostgreSQL.
+## Architecture
+
+```text
+Next.js UI
+   | HTTP / JSON
+Route Handlers
+   | Zod validation
+Business Rules
+   | Prisma ORM
+PostgreSQL
+```
+
+Business rules are centralized in `lib/business-rules/` and enforced by the API, so direct API calls follow the same rules as the UI.
+
+## Technology
+
+- Next.js 15, React 19, TypeScript, Tailwind CSS
+- PostgreSQL, Prisma ORM, and Zod
+- Lucide icons and Node.js test runner with `tsx`
+
+## API
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/returns` | Search and list return requests |
+| POST | `/api/returns` | Create a return request |
+| GET/PATCH/DELETE | `/api/returns/:id` | Read, edit, or soft-delete a request |
+| PATCH | `/api/returns/:id/status` | Change status or approve a request |
+| POST | `/api/returns/:id/notes` | Add an immutable internal note |
+
+## Local Development
+
+Requirements: Node.js 20+ and PostgreSQL 14+.
 
 ```bash
 npm install
 npx prisma generate
-npx prisma migrate deploy
+npx prisma migrate dev
+npm run prisma:seed
 npm run dev
 ```
 
 Open `http://localhost:3000`.
 
-## Development
-
-Create a `.env` file with a PostgreSQL connection string:
+Create `.env` with:
 
 ```env
-DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/returndesk?schema=public"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/returndesk?schema=public"
 ```
 
-Run the development server:
+### PostgreSQL with Docker
 
 ```bash
-npm run dev
+docker run --name returndesk-postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=returndesk \
+  -p 5432:5432 \
+  -d postgres:16-alpine
 ```
 
-## AWS EC2 Deployment
+## Production Deployment
 
-1. Create an Ubuntu EC2 instance and allow inbound HTTP traffic on port `80`.
-2. Install Node.js 20, PostgreSQL, and Git, then clone the repository.
-3. Configure `DATABASE_URL` in `.env` and apply the Prisma migration:
+Build and run the Next.js application on AWS EC2, Vercel, or another Node.js platform. Configure `DATABASE_URL` as a protected environment variable, then run migrations before serving traffic:
 
 ```bash
 npm install
@@ -50,7 +87,7 @@ npm run build
 npm start
 ```
 
-Use Nginx to proxy port `80` to the Next.js process on port `3000`, and run the app with a process manager such as systemd or PM2.
+Never commit `.env` or production database credentials. Use HTTPS and a process manager such as systemd or PM2 when deploying to EC2.
 
 ## Tests
 
