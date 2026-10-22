@@ -3,8 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #f4f5f1;
-  --foreground: #17211d;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #090d16;
+    --foreground: #f8fafc;
+  }
 }
 
 body {
@@ -12,16 +19,6 @@ body {
   background: var(--background);
   font-feature-settings: "rlig" 1, "calt" 1;
 }
-
-* { border-color: #dfe4df; }
-.font-display { font-family: var(--font-mono), sans-serif; font-weight: 650; }
-.brand-mark { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 9px; background: #e7b86b; color: #17211d; }
-.side-link { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 8px; color: #aebbb3; font-size: 13px; font-weight: 600; transition: all .18s ease; }
-.side-link:hover { color: #fff; background: rgba(255,255,255,.07); }
-.side-link-active { color: #fff; background: #2b3932; box-shadow: inset 3px 0 #e7b86b; }
-.avatar { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #d5e0d7; color: #385244; font-size: 10px; font-weight: 800; }
-.mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-bottom: 1px solid #dfe4df; }
-.mobile-new { padding: 8px 11px; border-radius: 7px; background: #17211d; color: #fff; font-size: 11px; font-weight: 700; }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
