@@ -6,7 +6,7 @@ ReturnDesk is a full-stack returns operations console for support teams. It prov
 
 - Next.js 15, React 19, TypeScript, Tailwind CSS
 - PostgreSQL 16, Prisma ORM, Zod validation
-- Docker Compose for the application and database
+- Docker Compose for the application and PostgreSQL database
 
 ## Run locally
 
@@ -41,7 +41,7 @@ docker compose exec app npx prisma migrate deploy
 ```
 
 4. Put Nginx in front of the app and proxy port `80` to `127.0.0.1:3000`.
-5. For production database hosting, use Amazon RDS PostgreSQL and set `DATABASE_URL` as an EC2 or ECS secret instead of using the Compose database service.
+5. PostgreSQL runs inside the Compose stack on the same EC2 instance. The database is persisted in the `returndesk-db` Docker volume; back up that volume before any destructive maintenance.
 
 ## Tests
 
