@@ -83,6 +83,17 @@ Every business rule is enforced **strictly on the server side** in dedicated bus
 * **Fully Responsive UI**
   Includes status badges, modal dialogs, loading skeletons, error toasts, and mobile responsiveness down to 375 px.
 
+## 🐳 Docker and AWS Deployment
+
+The production image uses Next.js standalone output and runs as a non-root user. For local verification with PostgreSQL:
+
+```bash
+docker compose up --build
+docker compose exec app npx prisma migrate deploy
+```
+
+The app is then available at `http://localhost:3000`. For AWS, push the image to Amazon ECR and run it on ECS Fargate or an EC2 host with Docker. Use Amazon RDS for PostgreSQL and set `DATABASE_URL` as a secret in the task definition or host environment. Run `npx prisma migrate deploy` as a release step before routing traffic to a new task.
+
 ---
 
 ## 🛠 Tech Stack

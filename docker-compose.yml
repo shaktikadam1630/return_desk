@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: returndesk
+      POSTGRES_USER: returndesk
+      POSTGRES_PASSWORD: change-me
+    volumes:
+      - returndesk-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U returndesk -d returndesk"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://returndesk:change-me@db:5432/returndesk?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  returndesk-db:

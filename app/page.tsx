@@ -145,14 +145,15 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       {/* Top Banner / Heading */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#b17832] mb-2">Operations / overview</p>
+          <h1 className="font-display text-3xl sm:text-4xl tracking-tight text-[#17211d]">
             Returns Desk
           </h1>
-          <p className="text-xs text-zinc-500 mt-1">
+          <p className="text-sm text-[#68736c] mt-2 max-w-xl">
             Manage customer return requests, review items, issue resolutions, and track audit notes.
           </p>
         </div>
@@ -164,7 +165,7 @@ export default function DashboardPage() {
               fetchStatusCounts();
             }}
             title="Refresh returns data"
-            className="p-2 text-zinc-600 dark:text-zinc-300 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl transition cursor-pointer flex items-center gap-1.5 text-xs font-semibold shadow-2xs"
+            className="p-2.5 text-[#53615a] bg-white hover:bg-[#eef1ed] border border-[#dfe4df] rounded-lg transition cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
           >
             <RotateCcw className="w-4 h-4" />
             <span className="hidden sm:inline">Refresh</span>
@@ -172,7 +173,7 @@ export default function DashboardPage() {
 
           <Link
             href="/returns/new"
-            className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-xl shadow-sm transition flex items-center gap-1.5 cursor-pointer"
+            className="px-4 py-2.5 text-xs font-semibold text-white bg-[#17211d] hover:bg-[#2b3932] rounded-lg transition flex items-center gap-1.5 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>New Return Request</span>
